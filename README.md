@@ -1,10 +1,12 @@
 # Remote shell
 A client-server remote shell implemented in Go using gRPC.
 
-Run the server first: go run server.go
+## Usage
+* First, run the server by going to the Server directory and typing `go run server.go`.
+* Next, run the client by going to the Client directory and typing `go run client.go`. 
+* Finally, enter in the IP to the server and you will be able to type any commands you would like.
 
-Run the client next: go run client.go
+## Notes
+To disconnect from the server, press ctrl+c or type exit (hit enter) and the client will disconnect from the server.
 
-Now enter any Linux bash commands which will run on the server.
-
-To exit, press ctrl+c or type exit into the client and press enter.
+This client/server assumes a 12021 port.
