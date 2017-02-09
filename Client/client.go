@@ -2,8 +2,10 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
+	"runtime"
 	"strings"
 
 	pb "github.com/taylorflatt/Lab1"
@@ -12,7 +14,7 @@ import (
 )
 
 const (
-	address = "localhost:50051"
+	address = "192.168.0.170:50051"
 )
 
 func main() {
@@ -51,10 +53,19 @@ func main() {
 		// Strip off trailing carriage returns
 		if len(tCmd2) > 1 {
 			cmdArgs = tCmd2[1:]
-			cmdArgs[len(cmdArgs)-1] = strings.TrimRight(cmdArgs[len(cmdArgs)-1], "\n")
+			if runtime.GOOS == "windows" {
+				cmdArgs[len(cmdArgs)-1] = strings.TrimRight(cmdArgs[len(cmdArgs)-1], "\r")
+			} else {
+				cmdArgs[len(cmdArgs)-1] = strings.TrimRight(cmdArgs[len(cmdArgs)-1], "\n")
+			}
 		} else {
-			temp := strings.TrimRight(tCmd2[len(tCmd2)-1], "\n")
-			cmdName = temp
+			if runtime.GOOS == "windows" {
+				fmt.Printf("AFTER %v", cmdName)
+				cmdName = strings.TrimRight(cmdName, "\r")
+				cmdName = strings.TrimRight(cmdName, "\n")
+			} else {
+				cmdName = strings.TrimRight(cmdName, "\n")
+			}
 		}
 
 		// Close the connection if the user enters exit.
@@ -62,7 +73,7 @@ func main() {
 			break
 		}
 
-		// Gets the response of the shell command from the server.
+		// Gets the response of the shell comm and from the server.
 		res, err := c.SendCommand(context.Background(), &pb.CommandRequest{CmdName: cmdName, CmdArgs: cmdArgs})
 
 		if err != nil {
