@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -20,6 +21,7 @@ func main() {
 	r := bufio.NewReader(os.Stdin)
 
 	// Read the server address
+	fmt.Print("Please specify the server IP: ")
 	address, _ := r.ReadString('\n')
 	address = strings.TrimSpace(address)
 	address = address + port
@@ -37,8 +39,11 @@ func main() {
 	// Create the client
 	c := pb.NewRemoteCommandClient(conn)
 
+	fmt.Printf("\nYou have successfully connected to %s! To disconnect, hit ctrl+c or type exit.\n", address)
+
 	// Keep connection alive until ctrl+c or exit is entered.
 	for true {
+		fmt.Print("$ ")
 		tCmd, _ := r.ReadString('\n')
 
 		// This strips off any trailing whitespace/carriage returns.
@@ -63,6 +68,6 @@ func main() {
 			log.Fatalf("Command failed: %v", err)
 		}
 
-		log.Printf("%s", res.Output)
+		log.Printf("    %s", res.Output)
 	}
 }
