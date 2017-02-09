@@ -12,19 +12,17 @@ import (
 )
 
 const (
-	address = "192.168.0.170:50051"
+	port = ":12021"
 )
 
 func main() {
 	// Read in the user's command.
 	r := bufio.NewReader(os.Stdin)
 
-	/* Read the server address
+	// Read the server address
 	address, _ := r.ReadString('\n')
-
-	temp := strings.Split(address, "\n")
-	address = strings.Join(temp[:], "")
-	*/
+	address = strings.TrimSpace(address)
+	address = address + port
 
 	// Set up a connection to the server.
 	conn, err := grpc.Dial(address, grpc.WithInsecure())
