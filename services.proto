@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+// Maybe this needs to be changed if we run into problems.
+package Lab1;
+
+service RemoteCommand {
+    // Sends a remote command from a client to a server.
+    rpc SendCommand (CommandRequest) returns (CommandReply) {}
+}
+
+// Request message
+message CommandRequest {
+    string cmdName = 1;
+    repeated string cmdArgs = 2;
+}
+
+// Response message
+message CommandReply {
+    string output = 1;
+}
