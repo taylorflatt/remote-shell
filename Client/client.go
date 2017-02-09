@@ -2,10 +2,8 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"log"
 	"os"
-	"runtime"
 	"strings"
 
 	pb "github.com/taylorflatt/Lab1"
@@ -44,29 +42,16 @@ func main() {
 	// Keep connection alive until ctrl+c or exit is entered.
 	for true {
 		tCmd, _ := r.ReadString('\n')
+
+		// This strips off any trailing whitespace/carriage returns.
+		tCmd = strings.TrimSpace(tCmd)
 		tCmd2 := strings.Split(tCmd, " ")
 
 		// Parse their input.
 		cmdName := tCmd2[0]
-		cmdArgs := []string{}
 
-		// Strip off trailing carriage returns
-		if len(tCmd2) > 1 {
-			cmdArgs = tCmd2[1:]
-			if runtime.GOOS == "windows" {
-				cmdArgs[len(cmdArgs)-1] = strings.TrimRight(cmdArgs[len(cmdArgs)-1], "\r")
-			} else {
-				cmdArgs[len(cmdArgs)-1] = strings.TrimRight(cmdArgs[len(cmdArgs)-1], "\n")
-			}
-		} else {
-			if runtime.GOOS == "windows" {
-				fmt.Printf("AFTER %v", cmdName)
-				cmdName = strings.TrimRight(cmdName, "\r")
-				cmdName = strings.TrimRight(cmdName, "\n")
-			} else {
-				cmdName = strings.TrimRight(cmdName, "\n")
-			}
-		}
+		//cmdArgs := []string{}
+		cmdArgs := tCmd2[1:]
 
 		// Close the connection if the user enters exit.
 		if cmdName == "exit" {
