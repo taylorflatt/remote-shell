@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -17,7 +16,7 @@ const (
 )
 
 func main() {
-	// Set up a connection to the server.
+	// Read in the user's command.
 	r := bufio.NewReader(os.Stdin)
 
 	/* Read the server address
@@ -27,6 +26,7 @@ func main() {
 	address = strings.Join(temp[:], "")
 	*/
 
+	// Set up a connection to the server.
 	conn, err := grpc.Dial(address, grpc.WithInsecure())
 
 	if err != nil {
@@ -39,9 +39,7 @@ func main() {
 	// Create the client
 	c := pb.NewRemoteCommandClient(conn)
 
-	// Read in the user's command.
-	//r := bufio.NewReader(os.Stdin)
-
+	// Keep connection alive until ctrl+c or exit is entered.
 	for true {
 		tCmd, _ := r.ReadString('\n')
 		tCmd2 := strings.Split(tCmd, " ")
@@ -53,12 +51,6 @@ func main() {
 		// Strip off trailing carriage returns
 		if len(tCmd2) > 1 {
 			cmdArgs = tCmd2[1:]
-			fmt.Printf("Args: %v", cmdArgs)
-			//temp := strings.TrimRight(tCmd2[len(tCmd2)-1], "\n")
-
-			fmt.Printf("Temp: %v", cmdArgs)
-			fmt.Printf("Length: %d", len(tCmd2)-1)
-
 			cmdArgs[len(cmdArgs)-1] = strings.TrimRight(cmdArgs[len(cmdArgs)-1], "\n")
 		} else {
 			temp := strings.TrimRight(tCmd2[len(tCmd2)-1], "\n")
