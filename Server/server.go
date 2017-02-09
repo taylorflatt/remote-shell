@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net"
 	"os/exec"
@@ -13,10 +12,10 @@ import (
 )
 
 const (
-	port = ":50051"
+	port = ":12021"
 )
 
-// server is used to implement helloworld.GreeterServer.
+// Server is used to implement the RemoteCommandServer
 type server struct{}
 
 // Executes a remote command from a client and returns that output. Otherwise, it will print an error.
@@ -24,19 +23,14 @@ func executeCommand(commandName string, commandArgs []string) string {
 	tOutput, err := exec.Command(commandName, commandArgs...).Output()
 	output := string(tOutput)
 
-	fmt.Printf("Client ran: %s\n", commandName)
-	fmt.Printf("Client with args: %v\n", commandArgs)
-	fmt.Printf("Output for the command was: %s\n", output)
-
-	if err == nil {
-		return output
+	if err != nil {
+		return err.Error()
 	}
 
-	fmt.Println(err)
-	return "An error was discovered executing your command."
+	return output
 }
 
-// SayHello implements helloworld.GreeterServer
+// This function executes the client's shell command and returns the results.
 func (s *server) SendCommand(ctx context.Context, in *pb.CommandRequest) (*pb.CommandReply, error) {
 
 	var cmdName = in.CmdName
@@ -48,14 +42,21 @@ func (s *server) SendCommand(ctx context.Context, in *pb.CommandRequest) (*pb.Co
 
 func main() {
 	lis, err := net.Listen("tcp", port)
+
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		log.Fatalf("Failed to listen %v", err)
 	}
+
+	// Initializes the gRPC server.
 	s := grpc.NewServer()
+
+	// Register the server with gRPC.
 	pb.RegisterRemoteCommandServer(s, &server{})
+
 	// Register reflection service on gRPC server.
 	reflection.Register(s)
+
 	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
+		log.Fatalf("Failed to serve: %v", err)
 	}
 }

@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-// Maybe this needs to be changed if we run into problems.
 package Lab1;
 
+// Defines the service between client and server.
 service RemoteCommand {
     // Sends a remote command from a client to a server.
     rpc SendCommand (CommandRequest) returns (CommandReply) {}
