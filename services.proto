@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package Lab1;
+package remoteshell;
 
 // Defines the service between client and server.
 service RemoteCommand {

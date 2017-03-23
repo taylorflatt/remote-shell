@@ -3,7 +3,7 @@
 // DO NOT EDIT!
 
 /*
-Package Lab1 is a generated protocol buffer package.
+Package remoteshell is a generated protocol buffer package.
 
 Maybe this needs to be changed if we run into problems.
 
@@ -14,7 +14,7 @@ It has these top-level messages:
         CommandRequest
         CommandReply
 */
-package Lab1
+package remoteshell
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
@@ -79,8 +79,8 @@ func (m *CommandReply) GetOutput() string {
 }
 
 func init() {
-	proto.RegisterType((*CommandRequest)(nil), "Lab1.CommandRequest")
-	proto.RegisterType((*CommandReply)(nil), "Lab1.CommandReply")
+	proto.RegisterType((*CommandRequest)(nil), "remoteshell.CommandRequest")
+	proto.RegisterType((*CommandReply)(nil), "remoteshell.CommandReply")
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -108,7 +108,7 @@ func NewRemoteCommandClient(cc *grpc.ClientConn) RemoteCommandClient {
 
 func (c *remoteCommandClient) SendCommand(ctx context.Context, in *CommandRequest, opts ...grpc.CallOption) (*CommandReply, error) {
 	out := new(CommandReply)
-	err := grpc.Invoke(ctx, "/Lab1.RemoteCommand/SendCommand", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/remoteshell.RemoteCommand/SendCommand", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -136,7 +136,7 @@ func _RemoteCommand_SendCommand_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Lab1.RemoteCommand/SendCommand",
+		FullMethod: "/remoteshell.RemoteCommand/SendCommand",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(RemoteCommandServer).SendCommand(ctx, req.(*CommandRequest))
@@ -145,7 +145,7 @@ func _RemoteCommand_SendCommand_Handler(srv interface{}, ctx context.Context, de
 }
 
 var _RemoteCommand_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "Lab1.RemoteCommand",
+	ServiceName: "remoteshell.RemoteCommand",
 	HandlerType: (*RemoteCommandServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
