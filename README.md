@@ -1,4 +1,4 @@
-# Remote shell [![Build Status](https://travis-ci.org/taylorflatt/remote-shell.svg?branch=master)](https://travis-ci.org/taylorflatt/remote-shell)
+# Remote shell [![GoDoc](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)](https://godoc.org/github.com/taylorflatt/remote-shell) [![Build Status](https://travis-ci.org/taylorflatt/remote-shell.svg?branch=master)](https://travis-ci.org/taylorflatt/remote-shell)
 A client-server remote shell implemented in Go using gRPC and Protocol Buffers.
 
 ## Usage
