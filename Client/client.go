@@ -1,3 +1,4 @@
+// Package client which will connect to a server and run a Go command.
 package client
 
 import (

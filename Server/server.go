@@ -1,3 +1,4 @@
+// Package server will execute all commands issued by connected clients.
 package server
 
 import (
