@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	pb "github.com/taylorflatt/Lab1"
+	pb "github.com/taylorflatt/remote-shell"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
