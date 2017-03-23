@@ -11,6 +11,7 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
+// The port the server is listening on.
 const (
 	port = ":12021"
 )
@@ -18,8 +19,9 @@ const (
 // Server is used to implement the RemoteCommandServer
 type server struct{}
 
-// Executes a remote command from a client and returns that output. Otherwise, it will print an error.
-func executeCommand(commandName string, commandArgs []string) string {
+// ExecuteCommand actually runs the command.
+// It returns the output of whichever command was run.
+func ExecuteCommand(commandName string, commandArgs []string) string {
 	tOutput, err := exec.Command(commandName, commandArgs...).Output()
 	output := string(tOutput)
 
@@ -30,12 +32,13 @@ func executeCommand(commandName string, commandArgs []string) string {
 	return output
 }
 
-// This function executes the client's shell command and returns the results.
+// SendCommand receives the command from the client and then executes it server-side.
+// It returns a commmand reply consisting of the output of the command.
 func (s *server) SendCommand(ctx context.Context, in *pb.CommandRequest) (*pb.CommandReply, error) {
 
 	var cmdName = in.CmdName
 	var cmdArgs = in.CmdArgs
-	var output = executeCommand(cmdName, cmdArgs)
+	var output = ExecuteCommand(cmdName, cmdArgs)
 
 	return &pb.CommandReply{Output: output}, nil
 }
