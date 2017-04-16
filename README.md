@@ -2,7 +2,7 @@
 A client-server remote shell implemented in Go using gRPC and Protocol Buffers.
 
 ## Usage
-* Get the source code by running "go get github.com/taylorflatt/remote-shell"
+* Get the source code by running `go get github.com/taylorflatt/remote-shell`
 * First, run the server by going to the Server directory and typing `go run server.go`.
 * Next, run the client by going to the Client directory and typing `go run client.go`. 
 * In the client, enter in the server IP to establish a connection over gRPC.
